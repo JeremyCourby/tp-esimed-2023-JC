@@ -1,23 +1,36 @@
 const express = require('express');
+const { TimeoutError } = require('sequelize');
 const router = express.Router();
 const userRepository = require('../models/user-repository');
+const { User } = require('../models/user.model.js');
 
-router.get('/', (req, res) => {
-  res.send(userRepository.getUsers());
+router.get('/test-sqlite', async (req, res) => {
+
+  const jane = await User.create({
+    firstName : 'jérémy',
+    lastName: 'Crb',
+    password: 'password'
+  });
+  
+  const users = await User.findAll();
+    
+  res.send(users)
 });
 
-router.get('/:firstName', (req, res) => {
-  const foundUser = userRepository.getUserByFirstName(req.params.firstName);
+router.get('/', async(req, res) => {
+  res.send(await userRepository.getUsers());
+});
 
+router.get('/:firstName', async (req, res) => {
+  const foundUser = await userRepository.getUserByFirstName(req.params.firstName);
   if (!foundUser) {
     throw new Error('User not found');
   }
-
   res.send(foundUser);
 });
 
-router.post('/', (req, res) => {
-  const existingUser = userRepository.getUserByFirstName(req.body.firstName);
+router.post('/', async(req, res) => {
+  const existingUser = await userRepository.getUserByFirstName(req.body.firstName);
 
   if (existingUser) {
     throw new Error('Unable to create the user');

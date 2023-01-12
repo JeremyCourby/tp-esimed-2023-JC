@@ -1,7 +1,16 @@
 const express = require('express');
 const { DateTime } = require('luxon');
+const cors = require('cors')
 
 const initJsonHandlerMiddlware = (app) => app.use(express.json());
+
+const initStacticMiddlwares = (app) => {
+    app.use(express.static('public'));
+}
+
+const initCorsMiddlwares = (app) => {
+    app.use(cors())
+}
 
 const initLoggerMiddlware = (app) => {
   app.use((req, res, next) => {
@@ -25,6 +34,8 @@ const initLoggerMiddlware = (app) => {
 exports.initializeConfigMiddlewares = (app) => {
   initJsonHandlerMiddlware(app);
   initLoggerMiddlware(app);
+  initStacticMiddlwares(app);
+  initCorsMiddlwares(app);
 }
 
 exports.initializeErrorMiddlwares = (app) => {

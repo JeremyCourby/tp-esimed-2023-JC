@@ -1,20 +1,25 @@
 const { users } = require('./db');
 const uuid = require('uuid');
 const md5 = require('md5');
+const {User} = require('../models/user.model')
 
-exports.getUsers = () => users;
+exports.getUsers = async() => {return await User.findAll();}
 
-exports.getUserByFirstName = (firstName) => {
-  return users.find((user) => user.firstName == firstName);
+exports.getUserByFirstName = async(searchFirstName) => {
+  const userfind = await User.findAll({
+    where:{
+      firstName: searchFirstName
+    }
+  });
+  return userfind[0];
 };
 
-exports.createUser = (body) => {
+exports.createUser = async (body) => {
   const hashedPassword = md5(body.password);
   const user = body;
-  user.id = uuid.v4();
   user.password = hashedPassword;
 
-  users.push(user);
+  await User.create(user);
 };
 
 exports.updateUser = (id, data) => {
