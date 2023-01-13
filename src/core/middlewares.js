@@ -1,7 +1,6 @@
 const express = require('express');
 const { DateTime } = require('luxon');
-const cors = require('cors');
-const { expressjwt: jwt } = require("express-jwt");
+const cors = require('cors')
 
 const initJsonHandlerMiddlware = (app) => app.use(express.json());
 
@@ -32,21 +31,11 @@ const initLoggerMiddlware = (app) => {
   });
 };
 
-const initjwtMiddlwares = (app) => {
-  app.use(
-    jwt({
-      secret: process.env.JWT_SECRET,
-      algorithms: ["HS256"],
-    }).unless({ path: [{url: "/users", methods: ["POST"]},"/auth/login"] })
-  );
-}
-
 exports.initializeConfigMiddlewares = (app) => {
   initJsonHandlerMiddlware(app);
   initLoggerMiddlware(app);
   initStacticMiddlwares(app);
   initCorsMiddlwares(app);
-  initjwtMiddlwares(app);
 }
 
 exports.initializeErrorMiddlwares = (app) => {

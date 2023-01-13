@@ -2,8 +2,9 @@ const { DataTypes } = require('sequelize');
 const { sequelize } = require('../models/sqlite.db');
 exports.User = sequelize.define('User', {
     id: {
-        type: DataTypes.STRING,
+        type: DataTypes.INTEGER,
         primaryKey: true,
+        autoIncrement: true,
         allowNull: false
     },
     firstName: {
