@@ -20,6 +20,7 @@ exports.createUser = async (body) => {
   const hashedPassword = bcrypt.hashSync(body.password, salt);
   user.id = uuid.v4();
   user.password = hashedPassword;
+  console.log(user)
 
   await User.create(user);
 };

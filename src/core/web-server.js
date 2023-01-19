@@ -12,7 +12,7 @@ class WebServer {
   constructor() {
     this.app = express();
     require('dotenv').config()
-    sequelize.sync();
+    sequelize.sync(/*{force : true}*/);
 
     initializeConfigMiddlewares(this.app);
     this._initializeRoutes();
@@ -22,6 +22,7 @@ class WebServer {
   start() {
     this.server = this.app.listen(this.port, () => {
       console.log(`Example app listening on port ${this.port}`);
+      console.log(process.env.NODE_ENV)
     });
   }
 
