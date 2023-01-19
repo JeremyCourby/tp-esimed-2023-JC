@@ -1,6 +1,6 @@
 require('dotenv').config();
 const WebServer = require('../../src/core/web-server.js');
-const {User} = require('../../src/models/user.model.js');
+const { User } = require('../../src/models/user.model.js');
 
 module.exports = async () => {
   const webServer = new WebServer();
@@ -14,4 +14,4 @@ module.exports = async () => {
     password: '$2a$12$fN90KmxobuGypSm.apeA5.S8eqvAXk40JZ0DKVIX1cBRQlYqfbu6.', // "password"
     isAdmin: true,
   });
-}
+};

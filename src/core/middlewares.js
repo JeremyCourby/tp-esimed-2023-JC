@@ -1,17 +1,17 @@
 const express = require('express');
 const { DateTime } = require('luxon');
 const cors = require('cors');
-const { expressjwt: jwt } = require("express-jwt");
+const { expressjwt: jwt } = require('express-jwt');
 
 const initJsonHandlerMiddlware = (app) => app.use(express.json());
 
 const initStacticMiddlwares = (app) => {
-    app.use(express.static('public'));
-}
+  app.use(express.static('public'));
+};
 
 const initCorsMiddlwares = (app) => {
-    app.use(cors())
-}
+  app.use(cors());
+};
 
 const initLoggerMiddlware = (app) => {
   app.use((req, res, next) => {
@@ -27,7 +27,7 @@ const initLoggerMiddlware = (app) => {
       const requestDuration = `Duration: ${requestDurationMs}ms`;
 
       console.log(`[${requestDate}] - [${remoteIP}] - [${httpInfo}] - [${requestDuration}]`);
-    })
+    });
     next();
   });
 };
@@ -36,11 +36,10 @@ const initjwtMiddlwares = (app) => {
   app.use(
     jwt({
       secret: process.env.JWT_SECRET,
-      algorithms: ["HS256"],
-    }).unless({ path: [{url: "/users", methods: ["POST"]},"/auth/login"] })
+      algorithms: ['HS256'],
+    }).unless({ path: [{ url: '/users', methods: ['POST'] }, '/auth/login'] })
   );
-}
-
+};
 
 exports.initializeConfigMiddlewares = (app) => {
   initJsonHandlerMiddlware(app);
@@ -48,7 +47,7 @@ exports.initializeConfigMiddlewares = (app) => {
   initStacticMiddlwares(app);
   initCorsMiddlwares(app);
   initjwtMiddlwares(app);
-}
+};
 
 exports.initializeErrorMiddlwares = (app) => {
   app.use((err, req, res, next) => {
@@ -58,4 +57,4 @@ exports.initializeErrorMiddlwares = (app) => {
       res.status(500).send(err.message);
     }
   });
-}
+};

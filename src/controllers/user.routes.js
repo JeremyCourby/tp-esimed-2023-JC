@@ -1,22 +1,21 @@
 const express = require('express');
-const { TimeoutError } = require('sequelize');
+// const { TimeoutError } = require('sequelize');
 const router = express.Router();
 const userRepository = require('../models/user-repository');
 const { User } = require('../models/user.model.js');
 const { body, validationResult } = require('express-validator');
-const guard = require('express-jwt-permissions')({requestProperty: 'auth'});
+const guard = require('express-jwt-permissions')({ requestProperty: 'auth' });
 
 router.get('/test-sqlite', async (req, res) => {
+  // const jane = await User.create({
+  //   firstName: 'jérémy',
+  //   lastName: 'Crb',
+  //   password: 'password'
+  // });
 
-  const jane = await User.create({
-    firstName : 'jérémy',
-    lastName: 'Crb',
-    password: 'password'
-  });
-  
   const users = await User.findAll();
-    
-  res.send(users)
+
+  res.send(users);
 });
 
 router.get('/', async(req, res) => {
@@ -34,7 +33,7 @@ router.get('/:firstName', guard.check('admin'), async (req, res) => {
   res.send(foundUser);
 });
 
-router.post('/',body('firstName').not().isEmpty().isAlphanumeric().isLength({ min: 5 }),body('lastName').not().isEmpty().isAlphanumeric().isLength({ min: 5 }), body('password').not().isEmpty().isAlphanumeric().isLength({ min: 5 }), async (req, res) => {
+router.post('/', body('firstName').not().isEmpty().isAlphanumeric().isLength({ min: 5 }), body('lastName').not().isEmpty().isAlphanumeric().isLength({ min: 5 }), body('password').not().isEmpty().isAlphanumeric().isLength({ min: 5 }), async (req, res) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return res.status(400).json({ errors: errors.array() });

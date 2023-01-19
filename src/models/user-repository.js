@@ -1,13 +1,13 @@
-const { users } = require('./db');
+// const { users } = require('./db');
 const uuid = require('uuid');
-const {User} = require('../models/user.model')
+const { User } = require('../models/user.model');
 const bcrypt = require('bcryptjs');
 
-exports.getUsers = async() => {return await User.findAll();}
+exports.getUsers = async() => { return await User.findAll(); };
 
 exports.getUserByFirstName = async(searchFirstName) => {
   const userfind = await User.findAll({
-    where:{
+    where: {
       firstName: searchFirstName
     }
   });
@@ -15,12 +15,12 @@ exports.getUserByFirstName = async(searchFirstName) => {
 };
 
 exports.createUser = async (body) => {
-  const user = body
+  const user = body;
   const salt = bcrypt.genSaltSync(12);
   const hashedPassword = bcrypt.hashSync(body.password, salt);
   user.id = uuid.v4();
   user.password = hashedPassword;
-  console.log(user)
+  console.log(user);
 
   await User.create(user);
 };
@@ -32,7 +32,7 @@ exports.updateUser = async(id, data) => {
     throw new Error('User not found');
   }
 
-  const salt = bcrypt.genSaltSync(12)
+  const salt = bcrypt.genSaltSync(12);
   await User.update({
     firstName: data.firstName || foundUser.firstName,
     lastName: data.lastName || foundUser.lastName,
@@ -42,4 +42,4 @@ exports.updateUser = async(id, data) => {
 
 exports.deleteUser = async (id) => {
   await User.destroy({ where: { id } });
-}
+};

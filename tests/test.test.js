@@ -1,5 +1,5 @@
 const request = require('supertest');
-/*global apiUrl */
+/* global apiUrl */
 test("Création d'un user", async () => {
   const res = await request(apiUrl)
     .post('/users')
@@ -14,7 +14,7 @@ test("Création d'un user", async () => {
   // expect(res.body).toHaveProperty('some data present in the body');
 });
 
-test("Authentification", async () => {
+test('Authentification', async () => {
   const res = await request(apiUrl)
     .post('/auth/login')
     .send({
@@ -26,7 +26,7 @@ test("Authentification", async () => {
   expect(res.body).toHaveProperty('token');
 });
 
-test("Authentification MDP", async () => {
+test('Authentification MDP', async () => {
   const res = await request(apiUrl)
     .post('/auth/login')
     .send({
@@ -38,7 +38,7 @@ test("Authentification MDP", async () => {
   expect(res.body).toHaveProperty('error');
 });
 
-test("Authentification FIRSTNAME", async () => {
+test('Authentification FIRSTNAME', async () => {
   const res = await request(apiUrl)
     .post('/auth/login')
     .send({
@@ -50,7 +50,7 @@ test("Authentification FIRSTNAME", async () => {
   expect(res.body).toHaveProperty('error');
 });
 
-test("Authentification NADA", async () => {
+test('Authentification NADA', async () => {
   const res = await request(apiUrl)
     .post('/auth/login')
     .send({
@@ -61,7 +61,7 @@ test("Authentification NADA", async () => {
   expect(res.body).toHaveProperty('error');
 });
 
-test("getUser", async () => {
+test('getUser', async () => {
   const res = await request(apiUrl)
     .get('/users')
     .send({});
