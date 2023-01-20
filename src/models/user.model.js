@@ -4,22 +4,22 @@ exports.User = sequelize.define('User', {
   id: {
     type: DataTypes.STRING,
     primaryKey: true,
-    allowNull: false
+    allowNull: false,
   },
   isAdmin: {
     type: DataTypes.BOOLEAN,
-    allowNull: false
+    allowNull: false,
   },
   firstName: {
     type: DataTypes.STRING,
-    allowNull: false
+    allowNull: false,
   },
   lastName: {
     type: DataTypes.STRING,
-    allowNull: false
+    allowNull: false,
   },
   password: {
     type: DataTypes.STRING,
-    allowNull: false
+    allowNull: false,
   },
 });

@@ -18,7 +18,7 @@ router.get('/test-sqlite', async (req, res) => {
   res.send(users);
 });
 
-router.get('/', async(req, res) => {
+router.get('/', async (req, res) => {
   res.send(await userRepository.getUsers());
 });
 
@@ -33,21 +33,27 @@ router.get('/:firstName', guard.check('admin'), async (req, res) => {
   res.send(foundUser);
 });
 
-router.post('/', body('firstName').not().isEmpty().isAlphanumeric().isLength({ min: 5 }), body('lastName').not().isEmpty().isAlphanumeric().isLength({ min: 5 }), body('password').not().isEmpty().isAlphanumeric().isLength({ min: 5 }), async (req, res) => {
-  const errors = validationResult(req);
-  if (!errors.isEmpty()) {
-    return res.status(400).json({ errors: errors.array() });
-  }
+router.post(
+  '/',
+  body('firstName').not().isEmpty().isAlphanumeric().isLength({ min: 5 }),
+  body('lastName').not().isEmpty().isAlphanumeric().isLength({ min: 5 }),
+  body('password').not().isEmpty().isAlphanumeric().isLength({ min: 5 }),
+  async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
 
-  const existingUser = await userRepository.getUserByFirstName(req.body.firstName);
+    const existingUser = await userRepository.getUserByFirstName(req.body.firstName);
 
-  if (existingUser) {
-    throw new Error('Unable to create the user');
-  }
+    if (existingUser) {
+      throw new Error('Unable to create the user');
+    }
 
-  await userRepository.createUser(req.body);
-  res.status(200).end();
-});
+    await userRepository.createUser(req.body);
+    res.status(200).end();
+  },
+);
 
 router.put('/:id', guard.check('admin'), async (req, res) => {
   await userRepository.updateUser(req.params.id, req.body).catch((err) => res.status(500).send(err.message));
